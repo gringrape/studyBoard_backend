@@ -1,7 +1,6 @@
 import {gql} from 'apollo-server-express';
 
 // TODO: at property 의 타입을 custom Date type 으로 수정
-// TODO: Post 의 mutation 연산 추가
 // TODO: Comment 의 input type 추가
 // TODO: Comment 의 mutation 연산 추가
 
@@ -12,12 +11,21 @@ export const typeDefs = gql`
     content: String!
   }
 
+  input ModifyPostInput {
+    id: String!
+    title: String
+    content: String
+  }
+
   type Query {
     getPosts: [Post]
-    getPost: Post
+    getPost(id: ID!): Post
   }
+
   type Mutation {
     createPost(input: PostInput): Post
+    modifyPost(input: ModifyPostInput): Post
+    deletePost(id: String!): Post
   }
 
   type Post {
@@ -30,6 +38,7 @@ export const typeDefs = gql`
     heartsCount: Int
     at: String 
   }
+
   type Comment {
     id: ID!
     writer: String!

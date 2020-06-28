@@ -1,4 +1,4 @@
-export let posts = [
+export let comments = [
   {
     id: '001',
     title: 'test 01',
