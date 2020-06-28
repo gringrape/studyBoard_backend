@@ -14,8 +14,7 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",
