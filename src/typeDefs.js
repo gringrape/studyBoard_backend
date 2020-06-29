@@ -9,12 +9,15 @@ export const typeDefs = gql`
     title: String!
     writer: String!
     content: String!
+    tags: [String]
   }
 
   input ModifyPostInput {
     id: String!
     title: String
     content: String
+    tags: [String]
+    heartsCount: Int
   }
 
   type Query {

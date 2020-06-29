@@ -1,34 +1,29 @@
 import { posts } from './db/posts';
+import { postRepo } from './repos/postRepo';
 
 export const resolvers = {
   Query: {
-    getPosts: () => posts, // o.k.
-    getPost: (_, {id}) => posts.find(({id: postId}) => postId === id) 
+    getPosts: () => postRepo.getPosts(),
+    getPost: (_, {id}) => postRepo.getPostById(id)
   },
   Mutation: {
-    createPost: (_, {input: {title, writer, content}}) => {
-      posts.push({
+    createPost: async (_, {input: {title, writer, content, tags}}) => {
+      const data = {
         title,
         writer,
         content,
-        id: `00${posts.length + 1}`,
-        tags: [],
+        tags: tags,
         heartsCount: 0,
-        at: (new Date()).toString()
-      });
-      return posts.slice(-1)[0];
+        at: new Date()
+      };
+      const { id } = await postRepo.insertPost(data);
+      return Object.assign(data, {id: id});
     },
-    modifyPost: (_, {input: {id, title, content}}) => {
-      let post = posts.find(({id: postId}) => postId === id);
-      Object.assign(post, {
-        title: (title) ? title : post.title,
-        content: (content) ? content : post.content
-      });
-      return post;
+    modifyPost: (_, { input }) => {
+      return postRepo.updatePost(input);
     },
     deletePost: (_, {id}) => {
-      const idx = posts.findIndex(({id: postId}) => postId === id);
-      return posts.splice(0, 1)[0];
+      return postRepo.deletePostById(id);
     }
   },
   Post: {
