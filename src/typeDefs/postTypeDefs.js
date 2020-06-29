@@ -1,10 +1,8 @@
 import {gql} from 'apollo-server-express';
 
 // TODO: at property 의 타입을 custom Date type 으로 수정
-// TODO: Comment 의 input type 추가
-// TODO: Comment 의 mutation 연산 추가
 
-export const typeDefs = gql`
+export const postTypeDefs = gql`
   input PostInput {
     title: String!
     writer: String!
@@ -40,13 +38,5 @@ export const typeDefs = gql`
     tags: [String]
     heartsCount: Int
     at: String 
-  }
-
-  type Comment {
-    id: ID!
-    writer: String!
-    at: String!
-    content: String
-    post_id: String!
   }
 `;

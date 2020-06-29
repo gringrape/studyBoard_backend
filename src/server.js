@@ -1,14 +1,17 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
-import { typeDefs } from './typeDefs';
-import { resolvers } from './resolvers';
+import { postTypeDefs } from './typeDefs/postTypeDefs';
+import { commentTypeDefs } from './typeDefs/commentTypeDefs';
+import { merge } from 'lodash';
+import { postResolvers } from './resolvers/postResolvers';
+import { commentResolvers } from './resolvers/commentResolvers';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers
+  typeDefs: [postTypeDefs, commentTypeDefs],
+  resolvers: merge(postResolvers, commentResolvers)
 });
 
 const app = express();

@@ -1,7 +1,6 @@
-import { posts } from './db/posts';
-import { postRepo } from './repos/postRepo';
+import { postRepo } from '../repos/postRepo';
 
-export const resolvers = {
+export const postResolvers = {
   Query: {
     getPosts: () => postRepo.getPosts(),
     getPost: (_, {id}) => postRepo.getPostById(id)
