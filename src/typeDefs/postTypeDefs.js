@@ -18,17 +18,6 @@ export const postTypeDefs = gql`
     heartsCount: Int
   }
 
-  type Query {
-    getPosts: [Post]
-    getPost(id: ID!): Post
-  }
-
-  type Mutation {
-    createPost(input: PostInput): Post
-    modifyPost(input: ModifyPostInput): Post
-    deletePost(id: String!): Post
-  }
-
   type Post {
     id: ID!
     title: String!

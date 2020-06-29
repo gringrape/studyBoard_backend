@@ -1,4 +1,5 @@
 import { postRepo } from '../repos/postRepo';
+import { commentRepo } from '../repos/commentRepo';
 
 export const postResolvers = {
   Query: {
@@ -15,10 +16,10 @@ export const postResolvers = {
         heartsCount: 0,
         at: new Date()
       };
-      const { id } = await postRepo.insertPost(data);
+      const {id} = await postRepo.insertPost(data);
       return Object.assign(data, {id: id});
     },
-    modifyPost: (_, { input }) => {
+    modifyPost: (_, {input}) => {
       return postRepo.updatePost(input);
     },
     deletePost: (_, {id}) => {
@@ -26,6 +27,6 @@ export const postResolvers = {
     }
   },
   Post: {
-    comments: () => []
+    comments: ({id}) => commentRepo.getCommentsByPostId(id)
   }
 };
