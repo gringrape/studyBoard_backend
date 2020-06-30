@@ -19,4 +19,10 @@ export const commentTypeDefs =  gql`
     content: String
     post_id: String!
   }
+
+  extend type Mutation { 
+    addComment(input: CommentInput): Comment
+    deleteComment(id: String!): Comment
+    modifyComment(input: ModifyCommentInput): Comment
+  }
 `;

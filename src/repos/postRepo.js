@@ -1,12 +1,13 @@
 import { query, queryOne } from './base';
 
-const getPosts = () => {
+const getPosts = (number) => {
   const sql = `
   SELECT *
   FROM posts
-  ORDER BY id;
+  ORDER BY id
+  LIMIT $1;
   `;
-  return query(sql);
+  return query(sql, [number]);
 };
 
 const getPostById = (id) => {

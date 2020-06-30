@@ -1,9 +1,12 @@
-import { postRepo } from '../repos/postRepo';
-import { commentRepo } from '../repos/commentRepo';
+import { commentRepo, postRepo } from '../repos/repos';
 
 export const postResolvers = {
   Query: {
-    getPosts: () => postRepo.getPosts(),
+    getPosts: (_, {number}) => {
+      const requestLimit = 100;
+      if (number > requestLimit) throw new Error('query amount exceeded!'); // schema 확인에서 걸러질 수 있도록 처리
+      return postRepo.getPosts(number);
+    },
     getPost: (_, {id}) => postRepo.getPostById(id)
   },
   Mutation: {

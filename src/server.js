@@ -1,21 +1,21 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { typeDefs } from './typeDefs/typeDefs';
-import { postTypeDefs } from './typeDefs/postTypeDefs';
-import { commentTypeDefs } from './typeDefs/commentTypeDefs';
-import { merge, fromPairs } from 'lodash';
-import { postResolvers } from './resolvers/postResolvers';
-import { commentResolvers } from './resolvers/commentResolvers';
+import { resolvers } from './resolvers/resolvers';
+import depthLimit from 'graphql-depth-limit';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
 
 dotenv.config();
 
 const server = new ApolloServer({
-  typeDefs: [typeDefs, postTypeDefs, commentTypeDefs],
-  resolvers: merge(postResolvers, commentResolvers)
+  typeDefs: typeDefs,
+  resolvers: resolvers,
+  validationRules: [depthLimit(10)]
 });
 
 const app = express();
+app.use(helmet());
 
 server.applyMiddleware({ app });
 
