@@ -6,12 +6,15 @@
   "dependencies": {
     "@babel/runtime": "^7.10.3",
     "apollo-server-express": "^2.15.0",
+    "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql-depth-limit": "^1.1.0",
+    "graphql-disable-introspection": "^1.1.0",
     "helmet": "^3.23.3",
     "lodash": "^4.17.15",
-    "pg-promise": "^10.5.7"
+    "pg-promise": "^10.5.7",
+    "ramda": "^0.27.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

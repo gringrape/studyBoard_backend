@@ -1,17 +1,31 @@
+// server, middleware
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+// schema
 import { typeDefs } from './typeDefs/typeDefs';
 import { resolvers } from './resolvers/resolvers';
+// security
+import NoIntrospection from 'graphql-disable-introspection';
 import depthLimit from 'graphql-depth-limit';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
-
+// dataloader
+import { commentsDataLoader } from './dataloaders/commentDataLoader';
+// env
+import dotenv from 'dotenv';
 dotenv.config();
 
 const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: resolvers,
-  validationRules: [depthLimit(10)]
+  context: () => ({
+    loaders: {
+      commentsLoader: commentsDataLoader()
+    }
+  }),
+  validationRules: [
+    depthLimit(10),
+    NoIntrospection
+  ]
 });
 
 const app = express();

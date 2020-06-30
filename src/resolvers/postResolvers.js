@@ -1,4 +1,4 @@
-import { commentRepo, postRepo } from '../repos/repos';
+import { postRepo } from '../repos/repos';
 
 export const postResolvers = {
   Query: {
@@ -30,6 +30,9 @@ export const postResolvers = {
     }
   },
   Post: {
-    comments: ({id}) => commentRepo.getCommentsByPostId(id)
+    comments: ({id: post_id}, _, {loaders}) => {
+      const {commentsLoader} = loaders;
+      return commentsLoader.load(post_id);
+    }
   }
 };

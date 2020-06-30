@@ -9,13 +9,13 @@ const insertComment = ({writer, content, post_id, at}) => {
   return queryOne(sql, [writer, content, post_id, at]);
 };
 
-const getCommentsByPostId = (post_id) => {
+const getCommentsByPostIds = (post_ids) => {
   const sql = `
   SELECT * 
   FROM comments
-  WHERE post_id = $1
+  WHERE post_id = any($1)
   `;
-  return query(sql, [post_id]);
+  return query(sql, [post_ids]);
 };
 
 const deleteCommentById = (id) => {
@@ -39,7 +39,7 @@ const updateComment = ({id, content}) => {
 
 export const commentRepo = {
   insertComment,
-  getCommentsByPostId,
+  getCommentsByPostIds,
   deleteCommentById,
   updateComment
 };

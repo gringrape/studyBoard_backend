@@ -1,5 +1,14 @@
 import { query, queryOne } from './base';
 
+const findById = (id) => {
+  const sql = `
+  SELECT count(*)
+  FROM posts
+  WHERE id = $1;
+  `
+  return queryOne(sql, [id]);
+}
+
 const getPosts = (number) => {
   const sql = `
   SELECT *
@@ -55,5 +64,6 @@ export const postRepo = {
   getPostById, 
   insertPost, 
   deletePostById,
-  updatePost 
+  updatePost,
+  findById 
 };
