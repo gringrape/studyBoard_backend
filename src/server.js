@@ -5,7 +5,6 @@ import express from 'express';
 import { typeDefs } from './typeDefs/typeDefs';
 import { resolvers } from './resolvers/resolvers';
 // security
-import NoIntrospection from 'graphql-disable-introspection';
 import depthLimit from 'graphql-depth-limit';
 import helmet from 'helmet';
 // dataloader
@@ -17,14 +16,15 @@ dotenv.config();
 const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: resolvers,
+  playground: true,
+  introspection: false,
   context: () => ({
     loaders: {
       commentsLoader: commentsDataLoader()
     }
   }),
   validationRules: [
-    depthLimit(10),
-    NoIntrospection
+    depthLimit(10)
   ]
 });
 

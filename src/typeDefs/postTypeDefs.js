@@ -29,9 +29,15 @@ export const postTypeDefs = gql`
     at: String 
   }
 
+  type Tag {
+    name: String
+    count: Int
+  }
+
   type Query {
     getPosts(number: Int!): [Post]
     getPost(id: ID!): Post
+    getTags: [Tag]
   }
 
   type Mutation {

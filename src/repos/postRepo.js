@@ -13,7 +13,7 @@ const getPosts = (number) => {
   const sql = `
   SELECT *
   FROM posts
-  ORDER BY id
+  ORDER BY at DESC
   LIMIT $1;
   `;
   return query(sql, [number]);
@@ -59,11 +59,21 @@ const updatePost = ({id, title, content, tags, heartsCount}) => {
   return queryOne(sql, [id, title, content, tags, heartsCount]);
 }
 
+const getAllTags = () => {
+  const sql = `
+  SELECT unnest(tags) 
+  AS tag
+  FROM posts
+  `;
+  return query(sql);
+}
+
 export const postRepo = {
   getPosts, 
   getPostById, 
   insertPost, 
   deletePostById,
   updatePost,
-  findById 
+  findById,
+  getAllTags
 };
