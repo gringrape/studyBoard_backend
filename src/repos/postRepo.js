@@ -9,20 +9,32 @@ const findById = (id) => {
   return queryOne(sql, [id]);
 }
 
-const getPosts = (number) => {
+const getPosts = (offset, limit, tag, titleQuery) => {
   const sql = `
   SELECT *
   FROM posts
+  ${tag ? `WHERE $3=ANY(tags)` : `WHERE 1=1`}
+  AND
+  ${titleQuery ? `title LIKE '%' || $4 || '%'`: `1=1`}
   ORDER BY at DESC
-  LIMIT $1;
+  OFFSET $1
+  LIMIT $2;
   `;
-  return query(sql, [number]);
+  return query(sql, [offset, limit, tag, titleQuery]);
 };
 
 const getPostById = (id) => {
   const sql = `
+  WITH tempView AS (
+    SELECT *,
+      lag(id, 1) OVER (ORDER BY at) prev_id,
+      lag(title, 1) OVER (ORDER BY at) prev_title,
+      lead(id, 1) OVER (ORDER BY at) next_id,
+      lead(title, 1) OVER (ORDER BY at) next_title
+    FROM posts
+  )
   SELECT *
-  FROM posts
+  FROM tempView
   WHERE id = $1;
   `;
   return queryOne(sql, [id]);

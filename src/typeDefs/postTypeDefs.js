@@ -18,6 +18,21 @@ export const postTypeDefs = gql`
     heartsCount: Int
   }
 
+  type SinglePostOutput {
+    id: ID!
+    title: String!
+    writer: String!
+    content: String!
+    comments: [Comment]
+    tags: [String]
+    heartsCount: Int
+    at: String
+    prev_id: String
+    prev_title: String
+    next_id: String
+    next_title: String 
+  }
+
   type Post {
     id: ID!
     title: String!
@@ -35,8 +50,8 @@ export const postTypeDefs = gql`
   }
 
   type Query {
-    getPosts(number: Int!): [Post]
-    getPost(id: ID!): Post
+    getPosts(offset: Int!, limit: Int!, tag: String, titleQuery: String): [Post]
+    getPost(id: ID!): SinglePostOutput
     getTags: [Tag]
   }
 

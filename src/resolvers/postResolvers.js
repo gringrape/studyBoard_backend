@@ -3,10 +3,10 @@ import { countBy } from 'ramda';
 
 export const postResolvers = {
   Query: {
-    getPosts: (_, {number}) => {
+    getPosts: (_, {offset, limit, tag, titleQuery}) => {
       const requestLimit = 100;
-      if (number > requestLimit) throw new Error('query amount exceeded!'); // schema 확인에서 걸러질 수 있도록 처리
-      return postRepo.getPosts(number);
+      if (limit > requestLimit) throw new Error('query amount exceeded!'); // schema 확인에서 걸러질 수 있도록 처리
+      return postRepo.getPosts(offset, limit, tag, titleQuery);
     },
     getPost: (_, {id}) => postRepo.getPostById(id),
     getTags: async () => {
@@ -35,7 +35,7 @@ export const postResolvers = {
       return postRepo.deletePostById(id);
     }
   },
-  Post: {
+  SinglePostOutput: {
     comments: ({id: post_id}, _, {loaders}) => {
       const {commentsLoader} = loaders;
       return commentsLoader.load(post_id);
